@@ -5,8 +5,15 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
+
 from app import app
 from flask import render_template, request, redirect, url_for, flash
+from .forms import ContactForm
+from app import mail
+from flask_mail import Message
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect(app)
+
 
 
 ###
@@ -23,6 +30,27 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    """Render the website's contact page."""
+    name=None
+    email=None
+    subject=None
+    message=None
+    form = ContactForm()
+    if form.validate_on_submit():
+        name=form.name.data
+        email=form.email.data
+        subject=form.subject.data
+        message=form.message.data
+        msg = Message(subject,
+                  sender=email,
+                  recipients=["to@example.com"])
+        msg.body = message
+        mail.send(msg)
+    return render_template('contact.html',
+                           form=form)
 
 
 ###
@@ -67,3 +95,4 @@ def page_not_found(error):
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port="8080")
+    CsrfProtect(app)

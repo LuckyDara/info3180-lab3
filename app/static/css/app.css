@@ -1,3 +1,23 @@
 body {
     padding-top: 5rem;
 }
+form label{
+    display: block;
+}
+form .form-control{
+    width: 30% !important;
+}
+form .area{
+    width: 40% !important;
+    height:220px !important;
+}
+form .btn{
+    width: 10% !important;
+}
+strong{
+    color: red;
+}
+form h1{
+    border-bottom: 1px solid black;
+    padding:15px 0px 15px 0px;
+}
